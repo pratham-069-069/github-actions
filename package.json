@@ -1,5 +1,5 @@
 {
-  "name": "selab",
+  "name": "simple-cicd-demo",
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
@@ -8,10 +8,9 @@
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "description": "Simple CI/CD demo with GitHub Actions",
   "dependencies": {
     "chai": "^4.5.0",
-    "mocha": "^11.7.4",
-    "selenium-webdriver": "^4.38.0"
+    "mocha": "^11.7.4"
   }
 }
