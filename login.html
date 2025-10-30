@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - MyApp</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: grid;
+            place-items: center;
+            min-height: 90vh;
+            background-color: #f4f4f4;
+        }
+        form {
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        div {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: 300px;
+            padding: 8px;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        /* This ID matches TC02  */
+        #errorMsg {
+            color: red;
+            font-size: 0.9em;
+            /* Hidden by default */
+            display: none;
+        }
+        #validationMsg {
+            color: red;
+            font-size: 0.9em;
+            /* Hidden by default */
+            display: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .extra-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="loginForm" onsubmit="return false;"> <h2>Login</h2>
+        
+        <div id="errorMsg">Invalid credentials</div>
+        <div id="validationMsg"></div>
+        
+        <div>
+            <label for="username">Username</label>
+            <input type="text" id="username">
+        </div>
+        
+        <div>
+            <label for="password">Password</label>
+            <input type="password" id="password">
+        </div>
+        
+        <div>
+            <button type="submit" id="loginBtn">Login</button>
+        </div>
+        
+        <div class="extra-options">
+            <label>
+                <input type="checkbox" id="rememberMe"> Remember Me
+            </label>
+            
+            <a href="forgot-password.html" id="forgotPassword">Forgot Password?</a>
+        </div>
+    </form>
+
+    <script>
+        // Add an event listener to the login button
+        document.getElementById("loginBtn").addEventListener("click", function() {
+            
+            // Get the elements
+            var user = document.getElementById("username").value;
+            var pass = document.getElementById("password").value;
+            var error = document.getElementById("errorMsg");
+            var validation = document.getElementById("validationMsg");
+
+            // Hide all messages first
+            error.style.display = "none";
+            validation.style.display = "none";
+
+            // --- Test Case 3 Logic (Blank fields) ---
+            if (user === "" && pass === "") {
+                validation.textContent = "Username and password are required";
+                validation.style.display = "block";
+                return;
+            }
+
+            // --- Test Case 4 Logic (Only username filled) ---
+            if (user !== "" && pass === "") {
+                validation.textContent = "Password required";
+                validation.style.display = "block";
+                return;
+            }
+
+            // --- Test Case 5 Logic (Only password filled) ---
+            if (user === "" && pass !== "") {
+                validation.textContent = "Username required";
+                validation.style.display = "block";
+                return;
+            }
+
+            // --- Test Case 1 Logic (Valid Login) [cite: 94] ---
+            if (user === "admin" && pass === "admin123") {
+                // Simulate redirect by changing the page title
+                // This matches the expected result for TC01 [cite: 114]
+                document.title = "Dashboard MyApp"; 
+                
+                // Also, update the page content to confirm success
+                document.body.innerHTML = "<h1>Welcome, Admin!</h1><p>Login Successful.</p>";
+            
+            // --- Test Case 2 Logic (Invalid Login) [cite: 94] ---
+            } else {
+                // Show the error message [cite: 126]
+                error.style.display = "block";
+            }
+        });
+    </script>
+
+</body>
+</html>
