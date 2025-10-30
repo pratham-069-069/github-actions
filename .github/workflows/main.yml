@@ -1,0 +1,59 @@
+name: CI/CD Pipeline
+
+# 1. Trigger: Run this pipeline on every push to the 'main' branch
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+# 2. Permissions: Give the pipeline permission to deploy
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # 3. Job 1: CI (Continuous Integration)
+  #    This job builds the project and runs the tests
+  build-and-test:
+    name: Build and Test (CI)
+    runs-on: ubuntu-latest # Use a standard Linux server
+    
+    steps:
+      - name: Get code from repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # Use Node.js version 18
+
+      - name: Install dependencies
+        run: npm ci # 'ci' is faster and safer than 'install' for servers
+
+      - name: Run Selenium Tests
+        run: npm test # This runs your 'mocha' command
+
+  # 4. Job 2: CD (Continuous Deployment)
+  #    This job deploys the website IF the 'build-and-test' job succeeds
+  deploy:
+    name: Deploy to GitHub Pages (CD)
+    needs: build-and-test # <-- This job only runs if 'build-and-test' passes
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }} # This will show the URL in your log
+
+    steps:
+      - name: Set up GitHub Pages
+        uses: actions/configure-pages@v4
+      
+      - name: Upload website files
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: . # Upload the whole directory (it will find login.html)
+          
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
