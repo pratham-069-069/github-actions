@@ -6,9 +6,11 @@ const chrome = require('selenium-webdriver/chrome');
 const { describe, it, before, after, beforeEach } = require('mocha');
 // Import Chai assertion library
 const { expect } = require('chai');
+// Import path module to handle file paths correctly
+const path = require('path');
 
-// Define the file path
-const fileUrl = 'file:///D:/githubActions/login.html';
+// Define the file path - works on both Windows and Linux
+const fileUrl = `file://${path.resolve(__dirname, '..', 'login.html').replace(/\\/g, '/')}`;
 
 // 'describe' creates a test suite
 describe('Login Page Test Suite', function () {
