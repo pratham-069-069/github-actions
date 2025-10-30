@@ -1,13 +1,19 @@
 // Import Selenium
-const { Builder, By, until, Key } = require('selenium-webdriver');
+import { Builder, By, until, Key } from 'selenium-webdriver';
 // Import Chrome-specific helpers to allow headless/configuration options
-const chrome = require('selenium-webdriver/chrome');
+import chrome from 'selenium-webdriver/chrome.js';
 // Import Mocha test functions
-const { describe, it, before, after, beforeEach } = require('mocha');
+import { describe, it, before, after, beforeEach } from 'mocha';
 // Import Chai assertion library
-const { expect } = require('chai');
+import { expect } from 'chai';
 // Import path module to handle file paths correctly
-const path = require('path');
+import path from 'path';
+// Import url module to handle file URLs correctly
+import { fileURLToPath } from 'url';
+
+// Get current directory in ES modules (equivalent to __dirname)
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Define the file path - works on both Windows and Linux
 const fileUrl = `file://${path.resolve(__dirname, '..', 'login.html').replace(/\\/g, '/')}`;
